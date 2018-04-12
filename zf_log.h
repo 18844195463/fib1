@@ -1,12 +1,10 @@
 #pragma once
 #pragma once
-#ifndef TYPE_COUNT
 #include "datatype.h"
-extern char state[MAX_STRING_SIZE_ALL];
-#endif
+#include "logapi.h"
 #ifndef _ZF_LOG_H_
 #define _ZF_LOG_H_
-
+# define MAX_STRING_SIZE_ALL 600
 /* To detect incompatible changes you can define ZF_LOG_VERSION_REQUIRED to be
 * the current value of ZF_LOG_VERSION before including this file (or via
 * compiler command line):
@@ -51,6 +49,7 @@ extern char state[MAX_STRING_SIZE_ALL];
 #define ZF_LOG_ERROR   5
 #define ZF_LOG_FATAL   6
 #define ZF_LOG_NONE    0xFF
+#define ZF_LOG_XHM_FIRST_PARAM char*
 
 /* "Current" log level is a compile time check and has no runtime overhead. Log
 * level that is below current log level it said to be "disabled". Otherwise,
@@ -838,7 +837,7 @@ static _ZF_LOG_INLINE void _zf_log_unused(const int dummy, ...) { (void)dummy; }
 #endif
 
 #if ZF_LOG_ENABLED_INFO
-#define ZF_LOGI(...) \
+#define ZF_LOGI(ZF_LOG_XHM_FIRST_PARAM, ...) \
 			ZF_LOG_WRITE(ZF_LOG_INFO, _ZF_LOG_TAG, __VA_ARGS__)
 #define ZF_LOGI_AUX(log, ...) \
 			ZF_LOG_WRITE_AUX(log, ZF_LOG_INFO, _ZF_LOG_TAG, __VA_ARGS__)
@@ -944,4 +943,4 @@ extern "C" {
 
 #endif
 
-void file_output_open(const char *const log_path);
+//void file_output_open(const char *const log_path);

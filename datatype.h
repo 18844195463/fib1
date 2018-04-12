@@ -1,13 +1,9 @@
 #pragma once
-# define MAX_STRING_SIZE 100
-# define MAX_STRING_SIZE_ALL 600
-# define TYPE_COUNT 1
-void write_to_log(char*, ...);
-char* getUserDefinedType(char* str);
-char* get_type(char* type);
-void setfmt(int count, ...);
-void write_to_file(char* src, size_t buflen, const char* filename);
-void log_init();
+#ifndef DATATYPE_H
+#define DATATYPE_H
+
+#define MAX_STRING_SIZE 100
+#include <iostream>
 struct AA
 {
 	char p;
@@ -26,4 +22,6 @@ typedef struct Temp
 		return p;
 	}
 }S_Temp;
+
+#endif // !DATATYPE_H
 

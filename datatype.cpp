@@ -1,8 +1,6 @@
 #include <iostream>
 #include "zf_log.h"
-#ifndef TYPE_COUNT
-	#include "datatype.h"
-#endif
+#include "datatype.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -12,22 +10,25 @@
 	#include <unistd.h>
 	#include <sys/time.h>
 #endif
-char state[MAX_STRING_SIZE_ALL] = { 0 };
+//# define ZF_LOGPUT(...) \
+	//ZF_LOGI(state, __VA_ARGS__)
 
-char* getUserDefinedType(char* str)
+namespace ZF_LOG
 {
-	for (int i = 1; i <= TYPE_COUNT; ++i)
-	{
-		if (!strcmp(str, "S_Temp"))
-			return S_Temp::tostring();
-		else
-		{
-			char* p = "";
-			return p;
-		}
-	}
+	char state[MAX_STRING_SIZE_ALL] = { 0 };
+	char* getUserDefinedType(char* str);
+	char* get_type(char* type);
 }
-char* get_type(char* type)
+
+char* ZF_LOG::getUserDefinedType(char* str)
+{
+	if (!strcmp(str, "S_Temp"))
+		return S_Temp::tostring();
+	else
+		return "";
+}
+
+char* ZF_LOG::get_type(char* type)
 {
 	if (type == nullptr)
 		return nullptr;
@@ -54,7 +55,7 @@ char* get_type(char* type)
 	char* str = getUserDefinedType(type);
 	return str;
 }
-void setfmt(int count, ...)
+void ZF_LOG::setfmt(int count, ...)
 {
 	if (!count)
 		return;
@@ -70,20 +71,15 @@ void setfmt(int count, ...)
 	{
 		char* type;
 		type = va_arg(va, char*);
-		strcat(state, get_type(type));
+		strcat(state, ZF_LOG::get_type(type));
 	}
 	va_end(va);
 	//strcpy(Log::state, wanted);
 	//return wanted;
 }
 
-void write_to_log(char* str, ...)
-{
-	//ZF_LOGI(log, __VA_ARGS__);
-}
 
-
-void write_to_file(char* src, size_t buflen, const char* filename)
+void ZF_LOG::write_to_file(char* src, size_t buflen, const char* filename)
 {
 	char file_name[100] = { 0 };
 	if (!filename)
@@ -112,8 +108,8 @@ void write_to_file(char* src, size_t buflen, const char* filename)
 	char* ptr = src;
 	for (size_t i = 0; i < buflen; i += 8)
 	{
-		printf("%02x: ", src + i);
-		fprintf(fp, "%02x: ", src + i);
+		printf("%02x: ", (unsigned)(src + i));
+		fprintf(fp, "%02x: ", (unsigned)(src + i));
 		for (size_t j = 0; j < 8; ++j)
 		{
 			if (i + j < buflen)
@@ -132,4 +128,12 @@ void write_to_file(char* src, size_t buflen, const char* filename)
 		fflush(fp);
 	}
 	fclose(fp);
+}
+
+void ZF_LOG::write_to_log(int val, ...)
+{
+	va_list args;
+	va_start(args, val);
+	//ZF_LOGI(state, args);
+	va_end(args);
 }
