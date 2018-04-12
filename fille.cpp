@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "zf_log.h"
-FILE *g_log_file;
+ static FILE *g_log_file;
 namespace ZF_LOG
 {
 	void file_output_callback(const zf_log_message *msg, void *arg);
 	void file_output_open(const char *const log_path);
+	void file_output_close(void);
 }
 void ZF_LOG::file_output_callback(const zf_log_message *msg, void *arg)
 {

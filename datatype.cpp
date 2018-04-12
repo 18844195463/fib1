@@ -129,11 +129,3 @@ void ZF_LOG::write_to_file(char* src, size_t buflen, const char* filename)
 	}
 	fclose(fp);
 }
-
-void ZF_LOG::write_to_log(int val, ...)
-{
-	va_list args;
-	va_start(args, val);
-	//ZF_LOGI(state, args);
-	va_end(args);
-}
