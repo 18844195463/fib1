@@ -27,7 +27,6 @@ float foo(float a, char b, const S_Temp& pp)
 }
 const int fafa(bool flag, uint32_t integer, char p, char d)
 {
-	ZF_LOG::log_init("E:\\log.txt");
 	ZF_LOG::setfmt(4, "bool", "uint32", "char", "char");
 	ZF_LOGWI(ZF_LOG::state, flag, integer, p, d);
 	char* ps = "hello world";
@@ -38,8 +37,8 @@ const int fafa(bool flag, uint32_t integer, char p, char d)
 }
 int main()
 {
-	
-	fafa(false, 1000, 'c', 'm');
+    ZF_LOG::log_init("E:\\log.txt");
+    fafa(false, 1000, 'c', 'm');
     return 0;
 }
-111
+```
